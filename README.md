@@ -9,6 +9,7 @@ Builds a Docker image and push it to AWS Elastic Container Registry.
 ```yaml
 jobs:
   build_and_push_to_ecr:
+    name: Build and Push to ECR
     uses: globaluy/workflows/.github/workflows/ecr.yml@v1.0.0
     with:
       aws-region: us-west-2
@@ -23,6 +24,7 @@ Generates a code coverage report and push it to SonarQube.
 ```yaml
 jobs:
   sonarqube_scan:
+    name: SonarQube scan
     uses: globaluy/workflows/.github/workflows/sonar.yml@v1.0.0
     secrets: inherit
 ```
