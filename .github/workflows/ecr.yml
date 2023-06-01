@@ -7,7 +7,7 @@ on:
         type: string
         required: false
         default: us-west-2
-      erc-repository:
+      ecr-repository:
         type: string
         required: true
     secrets:
