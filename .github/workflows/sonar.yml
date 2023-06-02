@@ -13,15 +13,7 @@ on:
 jobs:
   check_organization:
     name: Check Organization
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check organization caller
-        if: ${{ github.repository_owner != 'globaluy' }}
-        uses: actions/github-script@v6
-        with:
-          script: |
-            core.setFailed('This workflow can only be used by Global')
+    uses: globaluy/workflows/.github/workflows/org.yml@v1.0.0
 
   scan:
     needs: check_organization
