@@ -1,5 +1,8 @@
 name: Check Organization
 
+on:
+  workflow_call:
+
 jobs:
   check_organization:
     name: Check Organization
