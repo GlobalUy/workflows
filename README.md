@@ -17,6 +17,24 @@ jobs:
     secrets: inherit
 ```
 
+### Deploy ECR image to ECS
+
+Deploy an AWS Elastic Container Registry image to AWS Elastic Container Service.
+
+```yaml
+jobs:
+  deploy_image_to_ecs:
+    name: Deploy ECR image to ECS
+    uses: globaluy/workflows/.github/workflows/ecs.yml@v1.0.0
+    with:
+      aws-region: us-west-2
+      task-definition: task-definition
+      cluster: cluster
+      service: service
+      image-tag: image-tag
+    secrets: inherit
+```
+
 ### SonarQube Scan
 
 Generates a code coverage report and push it to SonarQube.
