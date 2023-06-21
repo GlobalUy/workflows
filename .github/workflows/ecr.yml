@@ -70,5 +70,5 @@ jobs:
           REPOSITORY: ${{ inputs.ecr-repository }}
           IMAGE_TAG: ${{ steps.image-tag.outputs.tag }}
         run: |
-          docker buildx b --progress plain --load -f ./dockerfile -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker buildx b --progress plain --load -f ./Dockerfile -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
