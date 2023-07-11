@@ -17,6 +17,23 @@ jobs:
     secrets: inherit
 ```
 
+### Build and Push to S3
+
+Builds an Angular application and push it to AWS Simple Storage Service.
+AWS CloudFront invalidation is optional.
+
+```yaml
+jobs:
+  build_and_push_to_s3:
+    name: Build and Push to S3
+    uses: globaluy/workflows/.github/workflows/s3.yml@v1.0.0
+    with:
+      aws-region: us-west-2
+      s3-bucket-name: bucket-name
+      cloud-front-distribution-id: distribution-id (optional)
+    secrets: inherit
+```
+
 ### Deploy ECR image to ECS
 
 Deploy an AWS Elastic Container Registry image to AWS Elastic Container Service.
