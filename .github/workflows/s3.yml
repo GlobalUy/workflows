@@ -1,0 +1,70 @@
+name: Build and Push to S3
+
+on:
+  workflow_call:
+    inputs:
+      aws-region:
+        type: string
+        required: false
+        default: us-west-2
+      s3-bucket-name:
+        type: string
+        required: true
+      cloud-front-distribution-id:
+        type: string
+        required: false
+    secrets:
+      PAT_TOKEN:
+        required: true
+      AWS_ACCESS_KEY:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+
+jobs:
+  check_organization:
+    name: Check Organization
+    uses: globaluy/workflows/.github/workflows/org.yml@v1.0.0
+
+  build_and_push:
+    needs: check_organization
+    name: Build and Push to S3
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          submodules: recursive
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.aws-region }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build:prod
+
+      - name: Push to S3
+        if: success()
+        env:
+          APP_NAME: ${{ inputs.app-name }}
+          BUCKET_NAME: ${{ inputs.s3-bucket-name }}
+        run: aws s3 sync dist/$APP_NAME s3://$BUCKET_NAME
+
+      - name: Create CloudFront invalidation
+        if: ${{ !inputs.cloud-front-distribution-id }}
+        env:
+          DISTRIBUTION_ID: ${{ inputs.cloud-front-distribution-id }}
+        run: aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
