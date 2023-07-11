@@ -59,9 +59,8 @@ jobs:
       - name: Push to S3
         if: success()
         env:
-          APP_NAME: ${{ inputs.app-name }}
           BUCKET_NAME: ${{ inputs.s3-bucket-name }}
-        run: aws s3 sync dist/$APP_NAME s3://$BUCKET_NAME
+        run: aws s3 sync dist/*/ s3://$BUCKET_NAME
 
       - name: Create CloudFront invalidation
         if: ${{ !inputs.cloud-front-distribution-id }}
