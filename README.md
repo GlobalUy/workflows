@@ -4,7 +4,7 @@
 
 ### Build and Push to ECR
 
-Builds a Docker image and push it to AWS Elastic Container Registry.
+Build a Docker image and push it to AWS Elastic Container Registry.
 
 ```yaml
 jobs:
@@ -19,7 +19,7 @@ jobs:
 
 ### Build and Push to S3
 
-Builds an Angular application and push it to AWS Simple Storage Service.
+Build an Angular application and push it to AWS Simple Storage Service.
 AWS CloudFront invalidation is optional.
 
 ```yaml
@@ -31,6 +31,42 @@ jobs:
       aws-region: us-west-2
       s3-bucket-name: bucket-name
       cloud-front-distribution-id: distribution-id (optional)
+    secrets: inherit
+```
+
+### Docker and Deploy to AWS
+
+Push revision files to AWS Simple Storage Service and create a deployment into AWS CodeDeploy.
+Application must work with Docker.
+
+```yaml
+jobs:
+  docker_and_deploy_to_aws:
+    name: Docker and Deploy to AWS
+    uses: globaluy/workflows/.github/workflows/docker.yml@v1.0.0
+    with:
+      aws-region: us-west-2
+      compose-file-name: production.yml (optional)
+      s3-bucket-name: bucket-name
+      application-name: ec2-on-premises (optional)
+      deployment-group-name: deployment-group-name
+    secrets: inherit
+```
+
+### Build and Deploy to AWS
+
+Build a Typescript application, push files to AWS Simple Storage Service and create a deployment into AWS CodeDeploy.
+
+```yaml
+jobs:
+  build_and_deploy_to_aws:
+    name: Build and Deploy to AWS
+    uses: globaluy/workflows/.github/workflows/deploy.yml@v1.0.0
+    with:
+      aws-region: us-west-2
+      s3-bucket-name: bucket-name
+      application-name: ec2-on-premises (optional)
+      deployment-group-name: deployment-group-name
     secrets: inherit
 ```
 
@@ -54,7 +90,7 @@ jobs:
 
 ### SonarQube Scan
 
-Generates a code coverage report and push it to SonarQube.
+Generate and upload a code coverage report to SonarQube.
 
 ```yaml
 jobs:
