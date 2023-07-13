@@ -77,7 +77,4 @@ jobs:
           REVISION_HASH: ${{ steps.revision-hash.outputs.hash }}
           APPLICATION_NAME: ${{ inputs.application-name }}
           DEPLOYMENT_GROUP_NAME: ${{ inputs.deployment-group-name }}
-        run: aws deploy create-deployment \
-          --application-name $APPLICATION_NAME \
-          --deployment-group-name $DEPLOYMENT_GROUP_NAME \
-          --revision revisionType=S3,s3Location={bucket=$BUCKET_NAME,key=$REVISION_HASH.zip,bundleType=zip}
+        run: aws deploy create-deployment --application-name $APPLICATION_NAME --deployment-group-name $DEPLOYMENT_GROUP_NAME --revision revisionType=S3,s3Location={bucket=$BUCKET_NAME,key=$REVISION_HASH.zip,bundleType=zip}
