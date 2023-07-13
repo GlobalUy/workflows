@@ -54,6 +54,7 @@ jobs:
         run: npm ci
 
       - name: Build application
+        if: success()
         run: npm run build:prod
 
       - name: Push to S3
@@ -63,7 +64,7 @@ jobs:
         run: aws s3 sync dist/*/ s3://$BUCKET_NAME
 
       - name: Create CloudFront invalidation
-        if: ${{ !!inputs.cloud-front-distribution-id }}
+        if: ${{ success() && !!inputs.cloud-front-distribution-id }}
         env:
           DISTRIBUTION_ID: ${{ inputs.cloud-front-distribution-id }}
         run: aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
