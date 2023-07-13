@@ -68,7 +68,7 @@ jobs:
           BUCKET_NAME: ${{ inputs.s3-bucket-name }}
         run: |
           zip -r $REVISION_HASH.zip infra dist node_modules appspec.yml
-          aws s3 sync $REVISION_HASH.zip s3://$BUCKET_NAME
+          aws s3 cp $REVISION_HASH.zip s3://$BUCKET_NAME
 
       - name: Create deployment
         if: success()
