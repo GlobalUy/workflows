@@ -63,8 +63,8 @@ jobs:
           COMPOSE_FILE_NAME: ${{ inputs.compose-file-name }}
           BUCKET_NAME: ${{ inputs.s3-bucket-name }}
         run: |
-          zip -r revision.zip infra docker appspec.yml $COMPOSE_FILE_NAME
-          aws s3 sync revision.zip s3://$BUCKET_NAME/$REVISION_HASH.zip
+          zip -r $REVISION_HASH.zip infra docker appspec.yml $COMPOSE_FILE_NAME
+          aws s3 cp $REVISION_HASH.zip s3://$BUCKET_NAME
 
       - name: Create deployment
         if: success()
