@@ -57,19 +57,14 @@ jobs:
         id: revision-hash
         run: echo "hash=${{ github.sha }}" >> $GITHUB_OUTPUT
 
-      - name: Zip revision files
-        id: revision-zip
+      - name: Zip and push revision files to S3
         env:
           REVISION_HASH: ${{ steps.revision-hash.outputs.hash }}
           COMPOSE_FILE_NAME: ${{ inputs.compose-file-name }}
-        run: zip -r $REVISION_HASH.zip infra docker appspec.yml $COMPOSE_FILE_NAME
-
-      - name: Push to S3
-        if: success()
-        env:
           BUCKET_NAME: ${{ inputs.s3-bucket-name }}
-          REVISION_HASH: ${{ steps.revision-hash.outputs.hash }}
-        run: aws s3 sync $REVISION_HASH.zip s3://$BUCKET_NAME
+        run: |
+          zip -r $REVISION_HASH.zip infra docker appspec.yml $COMPOSE_FILE_NAME
+          aws s3 sync $REVISION_HASH.zip s3://$BUCKET_NAME
 
       - name: Create deployment
         if: success()
