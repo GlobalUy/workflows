@@ -31,6 +31,7 @@ jobs:
       aws-region: us-west-2
       s3-bucket-name: bucket-name
       cloud-front-distribution-id: distribution-id (optional)
+      environment: production (optional)
     secrets: inherit
 ```
 
