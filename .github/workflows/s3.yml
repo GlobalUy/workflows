@@ -13,6 +13,10 @@ on:
       cloud-front-distribution-id:
         type: string
         required: false
+      environment:
+        type: string
+        required: false
+        default: production
     secrets:
       PAT_TOKEN:
         required: true
@@ -55,7 +59,9 @@ jobs:
 
       - name: Build application
         if: success()
-        run: npm run build:prod
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+        run: npm run build --configuration $ENVIRONMENT
 
       - name: Push to S3
         if: success()
