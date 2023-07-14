@@ -61,7 +61,7 @@ jobs:
         if: success()
         env:
           ENVIRONMENT: ${{ inputs.environment }}
-        run: npm run build --configuration $ENVIRONMENT
+        run: npm run build:$ENVIRONMENT
 
       - name: Push to S3
         if: success()
