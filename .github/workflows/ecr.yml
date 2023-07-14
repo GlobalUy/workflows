@@ -68,9 +68,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.ecr-login.outputs.registry }}
           REPOSITORY: ${{ inputs.ecr-repository }}
-          IMAGE_TAG: ${{ steps.image-tag.outputs.tag }}
           LATEST_TAG: latest
         run: |
-          docker buildx b --progress plain --load -f ./Dockerfile -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:$LATEST_TAG .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker buildx b --progress plain --load -f ./Dockerfile -t $REGISTRY/$REPOSITORY:$LATEST_TAG .
           docker push $REGISTRY/$REPOSITORY:$LATEST_TAG
