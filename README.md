@@ -32,6 +32,7 @@ jobs:
       s3-bucket-name: bucket-name
       cloud-front-distribution-id: distribution-id (optional)
       environment: production (optional)
+      legacy-peer-deps: true (optional)
     secrets: inherit
 ```
 
