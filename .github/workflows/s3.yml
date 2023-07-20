@@ -55,7 +55,7 @@ jobs:
           aws-region: ${{ inputs.aws-region }}
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Build application
         if: success()
