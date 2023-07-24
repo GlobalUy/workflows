@@ -20,6 +20,10 @@ on:
       deployment-group-name:
         type: string
         required: true
+      appspec-file-name:
+        type: string
+        required: false
+        default: appspec.yml
     secrets:
       PAT_TOKEN:
         required: true
@@ -59,9 +63,11 @@ jobs:
       - name: Zip and push revision files to S3
         env:
           REVISION_HASH: ${{ steps.revision-hash.outputs.hash }}
+          APPSPEC_FILE: ${{ inputs.appspec-file-name }}
           COMPOSE_FILE: ${{ inputs.compose-file-name }}
           BUCKET_NAME: ${{ inputs.s3-bucket-name }}
         run: |
+          mv $APPSPEC_FILE appspec.yml
           zip -r $REVISION_HASH.zip infra docker appspec.yml $COMPOSE_FILE
           aws s3 cp $REVISION_HASH.zip s3://$BUCKET_NAME
 
