@@ -51,6 +51,7 @@ jobs:
       s3-bucket-name: bucket-name
       application-name: ec2-on-premises (optional)
       deployment-group-name: deployment-group-name
+      appspec-file-name: appspec.yml (optional)
     secrets: inherit
 ```
 
