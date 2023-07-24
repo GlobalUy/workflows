@@ -58,7 +58,7 @@ jobs:
           REVISION_HASH: ${{ steps.revision-hash.outputs.hash }}
           BUCKET_NAME: ${{ inputs.s3-bucket-name }}
         run: |
-          zip -r $REVISION_HASH.zip infra docker appspec.yml *.docker.yml
+          zip -r $REVISION_HASH.zip infra docker appspec.yml compose.*.yml
           aws s3 cp $REVISION_HASH.zip s3://$BUCKET_NAME
 
       - name: Create deployment
