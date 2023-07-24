@@ -47,7 +47,7 @@ jobs:
     uses: globaluy/workflows/.github/workflows/docker.yml@v1.0.0
     with:
       aws-region: us-west-2
-      compose-file-name: production.yml (optional)
+      compose-file-name: production.yml
       s3-bucket-name: bucket-name
       application-name: ec2-on-premises (optional)
       deployment-group-name: deployment-group-name
