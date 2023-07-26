@@ -28,7 +28,7 @@ on:
 jobs:
   check_organization:
     name: Check Organization
-    uses: globaluy/workflows/.github/workflows/org.yml@v1.0.0
+    uses: globaluy/workflows/.github/workflows/org.yml@v2.0.0
 
   deploy_to_aws:
     needs: check_organization
