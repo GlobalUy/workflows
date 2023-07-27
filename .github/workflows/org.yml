@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Check organization caller
-        if: ${{ contains(fromJSON(variables.ORGS), github.repository_owner) }}
+        if: ${{ contains(fromJSON(vars.ORGS), github.repository_owner) }}
         uses: actions/github-script@v6
         with:
           script: |
