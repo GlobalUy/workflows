@@ -4,7 +4,7 @@ on:
   workflow_call:
     secrets:
       PAT_TOKEN:
-        required: true
+        required: false
       SONAR_HOST_URL:
         required: true
       SONAR_TOKEN:
