@@ -19,7 +19,7 @@ on:
         default: production
     secrets:
       PAT_TOKEN:
-        required: true
+        required: false
       AWS_ACCESS_KEY:
         required: true
       AWS_SECRET_ACCESS_KEY:
