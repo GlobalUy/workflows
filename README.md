@@ -14,6 +14,7 @@ jobs:
     with:
       aws-region: us-west-2
       ecr-repository: repository-name
+      node-version: 18.x (optional)
     secrets: inherit
 ```
 
@@ -32,6 +33,7 @@ jobs:
       s3-bucket-name: bucket-name
       cloud-front-distribution-id: distribution-id (optional)
       environment: production (optional)
+      node-version: 18.x (optional)
     secrets: inherit
 ```
 
@@ -69,6 +71,8 @@ jobs:
       s3-bucket-name: bucket-name
       application-name: ec2-on-premises (optional)
       deployment-group-name: deployment-group-name
+      appspec-file-name: appspec.yml (optional)
+      node-version: 18.x (optional)
     secrets: inherit
 ```
 
@@ -99,5 +103,7 @@ jobs:
   sonarqube_scan:
     name: SonarQube scan
     uses: globaluy/workflows/.github/workflows/sonar.yml@v1.0.0
+    with:
+      node-version: 18.x (optional)
     secrets: inherit
 ```

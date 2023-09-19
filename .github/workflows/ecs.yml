@@ -36,11 +36,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:

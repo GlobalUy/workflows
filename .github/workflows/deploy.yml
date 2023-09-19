@@ -17,6 +17,14 @@ on:
       deployment-group-name:
         type: string
         required: true
+      appspec-file-name:
+        type: string
+        required: false
+        default: appspec.yml
+      node-version:
+        type: string
+        required: false
+        default: 18.x
     secrets:
       PAT_TOKEN:
         required: false
@@ -42,6 +50,11 @@ jobs:
           token: ${{ secrets.PAT_TOKEN || github.token }}
           submodules: recursive
 
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -64,9 +77,10 @@ jobs:
         if: success()
         env:
           REVISION_HASH: ${{ steps.revision-hash.outputs.hash }}
-          COMPOSE_FILE_NAME: ${{ inputs.compose-file-name }}
+          APPSPEC_FILE: ${{ inputs.appspec-file-name }}
           BUCKET_NAME: ${{ inputs.s3-bucket-name }}
         run: |
+          mv $APPSPEC_FILE appspec.yml
           zip -r $REVISION_HASH.zip infra dist node_modules appspec.yml
           aws s3 cp $REVISION_HASH.zip s3://$BUCKET_NAME
 

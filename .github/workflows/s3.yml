@@ -17,6 +17,10 @@ on:
         type: string
         required: false
         default: production
+      node-version:
+        type: string
+        required: false
+        default: 18.x
     secrets:
       PAT_TOKEN:
         required: false
@@ -45,7 +49,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: ${{ inputs.node-version }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
