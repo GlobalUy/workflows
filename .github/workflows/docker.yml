@@ -68,7 +68,8 @@ jobs:
           BUCKET_NAME: ${{ inputs.s3-bucket-name }}
         run: |
           mv $APPSPEC_FILE appspec.yml
-          zip -r $REVISION_HASH.zip infra docker appspec.yml $COMPOSE_FILE
+          mv $COMPOSE_FILE compose.yml
+          zip -r $REVISION_HASH.zip infra docker appspec.yml compose.yml
           aws s3 cp $REVISION_HASH.zip s3://$BUCKET_NAME
 
       - name: Create deployment
