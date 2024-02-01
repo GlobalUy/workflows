@@ -71,7 +71,7 @@ jobs:
         if: success()
         env:
           BUCKET_NAME: ${{ inputs.s3-bucket-name }}
-        run: aws s3 sync dist/*/ s3://$BUCKET_NAME
+        run: aws s3 sync dist/*/ s3://$BUCKET_NAME --delete
 
       - name: Create CloudFront invalidation
         if: ${{ success() && !!inputs.cloud-front-distribution-id }}
