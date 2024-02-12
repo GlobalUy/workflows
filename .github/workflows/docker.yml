@@ -67,8 +67,8 @@ jobs:
           COMPOSE_FILE: ${{ inputs.compose-file-name }}
           BUCKET_NAME: ${{ inputs.s3-bucket-name }}
         run: |
-          mv $APPSPEC_FILE appspec.yml
-          mv $COMPOSE_FILE compose.yml
+          mv $APPSPEC_FILE a.yml && mv a.yml appspec.yml
+          mv $COMPOSE_FILE c.yml && mv c.yml compose.yml
           zip -r $REVISION_HASH.zip infra docker appspec.yml compose.yml
           aws s3 cp $REVISION_HASH.zip s3://$BUCKET_NAME
 
