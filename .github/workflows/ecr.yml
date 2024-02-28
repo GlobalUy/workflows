@@ -1,4 +1,4 @@
-name: Build and Push to ECR
+name: Build and push image to ECR
 
 on:
   workflow_call:
@@ -17,7 +17,7 @@ on:
     outputs:
       tag:
         description: "Docker image tag"
-        value: ${{ jobs.build_and_push.outputs.tag }}
+        value: ${{ jobs.build_and_push_to_ecr.outputs.tag }}
     secrets:
       PAT_TOKEN:
         required: false
@@ -28,25 +28,25 @@ on:
 
 jobs:
   check_organization:
-    name: Check Organization
+    name: Check organization
     uses: globaluy/workflows/.github/workflows/org.yml@v2.0.0
 
-  build_and_push:
+  build_and_push_to_ecr:
     needs: check_organization
-    name: Build and Push to ECR
+    name: Build and push image to ECR
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.image-tag.outputs.tag }}
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN || github.token }}
           submodules: recursive
 
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node-version }}
 

@@ -1,4 +1,4 @@
-name: Build and Push to S3
+name: Build and push to S3 + CloudFront invalidation
 
 on:
   workflow_call:
@@ -31,23 +31,23 @@ on:
 
 jobs:
   check_organization:
-    name: Check Organization
+    name: Check organization
     uses: globaluy/workflows/.github/workflows/org.yml@v2.0.0
 
-  build_and_push:
+  build_and_push_to_s3:
     needs: check_organization
-    name: Build and Push to S3
+    name: Build and push to S3 + CloudFront invalidation
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN || github.token }}
           submodules: recursive
 
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node-version }}
 

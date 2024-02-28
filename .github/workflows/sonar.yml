@@ -1,4 +1,4 @@
-name: SonarQube Scan
+name: SonarQube scan
 
 on:
   workflow_call:
@@ -17,23 +17,23 @@ on:
 
 jobs:
   check_organization:
-    name: Check Organization
+    name: Check organization
     uses: globaluy/workflows/.github/workflows/org.yml@v2.0.0
 
-  scan:
+  sonarqube_scan:
     needs: check_organization
-    name: SonarQube Scan
+    name: SonarQube scan
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN || github.token }}
           submodules: recursive
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node-version }}
 

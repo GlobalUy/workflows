@@ -1,4 +1,4 @@
-name: Docker and Deploy to AWS
+name: Deploy ECR image to AWS
 
 on:
   workflow_call:
@@ -34,17 +34,17 @@ on:
 
 jobs:
   check_organization:
-    name: Check Organization
+    name: Check organization
     uses: globaluy/workflows/.github/workflows/org.yml@v2.0.0
 
   deploy_to_aws:
     needs: check_organization
-    name: Deploy to AWS
+    name: Deploy ECR image to AWS
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN || github.token }}
           submodules: recursive

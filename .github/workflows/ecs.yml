@@ -27,10 +27,10 @@ on:
 
 jobs:
   check_organization:
-    name: Check Organization
+    name: Check organization
     uses: globaluy/workflows/.github/workflows/org.yml@v2.0.0
 
-  deploy_image:
+  deploy_image_to_ecs:
     needs: check_organization
     name: Deploy ECR image to ECS
     runs-on: ubuntu-latest

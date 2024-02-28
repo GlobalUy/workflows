@@ -1,11 +1,11 @@
-name: Check Organization
+name: Check organization
 
 on:
   workflow_call:
 
 jobs:
   check_organization:
-    name: Check Organization
+    name: Check organization
     runs-on: ubuntu-latest
 
     steps:

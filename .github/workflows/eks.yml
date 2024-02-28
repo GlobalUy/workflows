@@ -1,0 +1,64 @@
+name: Deploy ECR image to EKS
+
+on:
+  workflow_call:
+    inputs:
+      aws-region:
+        type: string
+        required: false
+        default: us-west-2
+      eks-cluster:
+        type: string
+        required: true
+      deployment-file:
+        type: string
+        required: false
+        default: deployment.yml
+      service-file:
+        type: string
+        required: false
+        default: service.yml
+    secrets:
+      PAT_TOKEN:
+        required: false
+      AWS_ACCESS_KEY:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+
+jobs:
+  check_organization:
+    name: Check organization
+    uses: globaluy/workflows/.github/workflows/org.yml@v2.0.0
+
+  deploy_image_to_eks:
+    needs: check_organization
+    name: Deploy ECR image to EKS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN || github.token }}
+          submodules: recursive
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.aws-region }}
+
+      - name: Update kube config
+        env:
+          CLUSTER: ${{ inputs.eks-cluster }}
+        run: aws eks update-kubeconfig --name $CLUSTER
+      
+      - name: Deploy to EKS
+        env:
+          DEPLOYMENT_FILE: ${{ inputs.deployment-file }}
+          SERVICE_FILE: ${{ inputs.service-file }}
+        run: |
+          kubectl apply -f $DEPLOYMENT_FILE
+          kubectl apply -f $SERVICE_FILE
